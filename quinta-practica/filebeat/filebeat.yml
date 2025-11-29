@@ -1,0 +1,12 @@
+cat > /root/practica5/filebeat/filebeat.yml << 'EOF'
+filebeat.inputs:
+  - type: container
+    paths:
+      - /var/lib/docker/containers/*/*.log
+
+processors:
+  - add_locale: ~
+
+output.logstash:
+  hosts: ["logstash:5000"]
+EOF

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Landing prrón de Alejandro</title>
+  <style>
+    :root{
+      --bg1:#0f1020;
+      --bg2:#0a0b16;
+      --primary:#7c4dff;
+      --accent:#00e5ff;
+      --neon:#39ff14;
+      --text:#e9ecf1;
+      --muted:#9aa3ad;
+      --glass:rgba(255,255,255,0.08);
+      --border:rgba(255,255,255,0.15);
+    }
+    *{box-sizing:border-box}
+    html,body{
+      margin:0; padding:0; height:100%;
+      background: radial-gradient(1200px 800px at 20% 10%, #162039 0%, var(--bg1) 50%, var(--bg2) 100%);
+      color:var(--text); font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      overflow-x:hidden;
+    }
+    /* Animated gradient fog */
+    .glow{
+      position:fixed; inset:0; pointer-events:none; z-index:-1;
+      filter:blur(60px);
+    }
+    .glow::before,.glow::after{
+      content:""; position:absolute; width:60vmax; height:60vmax; border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, rgba(124,77,255,0.35), transparent 60%);
+      animation:floatA 18s ease-in-out infinite;
+    }
+    .glow::after{
+      left:auto; right:-10%; top:40%;
+      background:radial-gradient(circle at 70% 50%, rgba(0,229,255,0.35), transparent 60%);
+      animation:floatB 22s ease-in-out infinite;
+    }
+    @keyframes floatA{ 0%,100%{transform:translate(0,0)} 50%{transform:translate(10%, -8%)} }
+    @keyframes floatB{ 0%,100%{transform:translate(0,0)} 50%{transform:translate(-8%, 6%)} }
+
+    header{
+      width:100%; padding:24px 28px; position:sticky; top:0; backdrop-filter:saturate(180%) blur(6px);
+      background:linear-gradient(to bottom, rgba(10,10,20,0.6), rgba(10,10,20,0));
+      border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);
+    }
+    .logo{
+      width:36px; height:36px; border-radius:10px; background:
+        conic-gradient(from 210deg, var(--primary), var(--accent), var(--primary));
+      box-shadow:0 0 18px rgba(124,77,255,0.5), 0 0 8px rgba(0,229,255,0.35);
+    }
+    .nav{
+      display:flex; gap:14px; flex-wrap:wrap;
+    }
+    .chip{
+      padding:8px 14px; border:1px solid var(--border); border-radius:999px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      color:var(--muted); text-decoration:none; transition:all .25s ease;
+    }
+    .chip:hover{ color:var(--text); border-color:rgba(124,77,255,0.6); box-shadow:0 0 14px rgba(124,77,255,0.25)}
+
+    .hero{
+      max-width:1100px; margin:60px auto 30px; padding:0 24px;
+      display:grid; grid-template-columns:1.1fr .9fr; gap:26px;
+    }
+    @media (max-width:900px){ .hero{ grid-template-columns:1fr } }
+    .card{
+      background:linear-gradient(180deg, var(--glass), rgba(255,255,255,0.04));
+      border:1px solid var(--border); border-radius:18px; padding:26px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.45);
+    }
+    .title{
+      font-size:clamp(32px,6vw,54px); line-height:1.05; margin:0 0 12px;
+      letter-spacing:0.2px;
+    }
+    .accent{background:linear-gradient(90deg, var(--accent), var(--primary)); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .subtitle{ color:var(--muted); font-size:clamp(16px,2.4vw,20px); margin:0 0 24px }
+
+    .cta-row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center }
+    .btn{
+      display:inline-flex; align-items:center; gap:10px; padding:12px 18px; border-radius:12px;
+      border:1px solid var(--border); color:var(--text); text-decoration:none; position:relative;
+      transition:transform .18s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .btn.primary{
+      background: radial-gradient(120% 120% at 10% 10%, rgba(124,77,255,0.35), rgba(124,77,255,0.18));
+      border-color:rgba(124,77,255,0.55);
+      box-shadow:0 0 20px rgba(124,77,255,0.35), inset 0 0 20px rgba(124,77,255,0.18);
+    }
+    .btn.primary:hover{ transform:translateY(-2px); box-shadow:0 6px 26px rgba(124,77,255,0.45) }
+    .btn.ghost:hover{ border-color:rgba(0,229,255,0.6); box-shadow:0 0 16px rgba(0,229,255,0.25) }
+    .hint{ color:var(--muted); font-size:14px }
+
+    .stats{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px;
+    }
+    @media (max-width:700px){ .stats{ grid-template-columns:1fr 1fr } }
+    .stat{
+      padding:16px; border-radius:14px; border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      text-align:center;
+    }
+    .stat h3{ margin:0; font-size:22px }
+    .stat p{ margin:6px 0 0; color:var(--muted); font-size:14px }
+
+    .panel{
+      display:grid; gap:14px;
+    }
+    .panel .preview{
+      aspect-ratio:16/10; border-radius:16px; border:1px dashed rgba(255,255,255,0.15);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+        radial-gradient(600px 200px at 80% 20%, rgba(0,229,255,0.15), transparent 60%),
+        radial-gradient(600px 200px at 30% 80%, rgba(124,77,255,0.18), transparent 60%);
+      display:grid; place-items:center; color:var(--muted);
+      position:relative; overflow:hidden;
+    }
+    .orbit{
+      position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(150px 150px at var(--x,60%) var(--y,40%), rgba(57,255,20,0.12), transparent 50%);
+      transition:background .06s linear;
+    }
+    .time{
+      position:absolute; bottom:12px; right:14px; font-size:13px; color:var(--muted);
+      padding:6px 10px; border-radius:999px; border:1px solid var(--border);
+      background:rgba(0,0,0,0.2);
+    }
+
+    section{
+      max-width:1100px; margin:26px auto; padding:0 24px;
+      display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+    }
+    @media (max-width:900px){ section{ grid-template-columns:1fr 1fr } }
+    @media (max-width:600px){ section{ grid-template-columns:1fr } }
+    .tile{
+      padding:18px; border-radius:16px; border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      transition:transform .2s ease, box-shadow .25s ease;
+    }
+    .tile:hover{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(0,0,0,0.35) }
+    .tile h4{ margin:0 0 8px; font-size:18px }
+    .tile p{ margin:0; color:var(--muted); font-size:14px }
+
+    footer{
+      max-width:1100px; margin:40px auto 60px; padding:0 24px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      color:var(--muted);
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px; border-radius:999px; border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    }
+    .neon{
+      color:var(--neon); text-shadow:0 0 8px rgba(57,255,20,0.6);
+    }
+    /* Small helper classes */
+    .sp{ height:10px }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+
+  <header>
+    <a class="brand" href="#">
+      <div class="logo"></div>
+      <strong>Proyecto de Alejandro</strong>
+    </a>
+    <nav class="nav">
+      <a class="chip" href="#features">Features</a>
+      <a class="chip" href="#demo">Demo</a>
+      <a class="chip" href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <div class="card">
+      <h1 class="title">Una landing <span class="accent">super prrón</span> para tu servidor Nginx</h1>
+      <p class="subtitle">Oscura, con neón y glassmorphism. Animaciones suaves, responsive y lista para lucirse en Docker.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#demo">Ver demo</a>
+        <a class="btn ghost" href="#features">Características</a>
+        <span class="hint">Tip: edítala y pon tu nombre, redes y proyectos.</span>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <h3 id="uptime">0:00</h3>
+          <p>Uptime de sesión</p>
+        </div>
+        <div class="stat">
+          <h3>100%</h3>
+          <p>Estilo y actitud</p>
+        </div>
+        <div class="stat">
+          <h3 class="neon">Neón</h3>
+          <p>Modo activo</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card panel" id="demo">
+      <div class="preview" id="preview">
+        <div class="orbit" id="orbit"></div>
+        <div>
+          <h3>Interactivo</h3>
+          <p class="subtitle">Mueve el mouse y mira la luz reaccionar.</p>
+        </div>
+        <div class="time" id="time">--:--:--</div>
+      </div>
+      <div class="sp"></div>
+      <div class="tile">
+        <h4>¿Qué incluye?</h4>
+        <p>Animaciones suaves, gradientes reactivos, botones con brillo y tarjetas responsive.</p>
+      </div>
+    </div>
+  </main>
+
+  <section id="features">
+    <div class="tile">
+      <h4>Diseño moderno</h4>
+      <p>Glassmorphism y sombras limpias para una vibra premium.</p>
+    </div>
+    <div class="tile">
+      <h4>Responsive</h4>
+      <p>Se adapta a móvil, tablet y escritorio sin perder estilo.</p>
+    </div>
+    <div class="tile">
+      <h4>Interactividad</h4>
+      <p>Pequeños detalles que responden al usuario sin recargar.</p>
+    </div>
+  </section>
+
+  <footer id="contacto">
+    <div class="badge">
+      <span>Hecho para</span> <strong>Alejandro</strong>
+    </div>
+    <div class="badge">
+      <span>Servidor</span> <strong class="neon">Nginx + Docker</strong>
+    </div>
+  </footer>
+
+  <script>
+    // Live time and uptime
+    const start = Date.now();
+    const timeEl = document.getElementById('time');
+    const upEl = document.getElementById('uptime');
+    function pad(n){ return String(n).padStart(2,'0') }
+    setInterval(()=>{
+      const d = new Date();
+      timeEl.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+      const ms = Date.now() - start;
+      const m = Math.floor(ms/60000), s = Math.floor((ms%60000)/1000);
+      upEl.textContent = `${m}:${pad(s)}`;
+    }, 250);
+
+    // Orbit light follows pointer
+    const orbit = document.getElementById('orbit');
+    const preview = document.getElementById('preview');
+    preview.addEventListener('pointermove', (e)=>{
+      const rect = preview.getBoundingClientRect();
+      const x = ((e.clientX - rect.left)/rect.width)*100;
+      const y = ((e.clientY - rect.top)/rect.height)*100;
+      orbit.style.setProperty('--x', `${x}%`);
+      orbit.style.setProperty('--y', `${y}%`);
+    });
+
+    // Subtle parallax on mouse enter
+    let raf = null;
+    preview.addEventListener('mouseenter', ()=>{
+      let t = 0;
+      const loop = ()=>{
+        t+=0.01;
+        preview.style.transform = `perspective(800px) rotateX(${Math.sin(t)*1.2}deg) rotateY(${Math.cos(t)*1.2}deg)`;
+        raf = requestAnimationFrame(loop);
+      };
+      loop();
+    });
+    preview.addEventListener('mouseleave', ()=>{
+      cancelAnimationFrame(raf);
+      preview.style.transform = 'none';
+    });
+  </script>
+</body>
+</html>
+
